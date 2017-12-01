@@ -33,12 +33,12 @@ public class CharacterBehaviour : MonoBehaviour
 
     public void Left() // move left
     {
-        gameObject.transform.Rotate(0,-12,0);
+        gameObject.transform.Rotate(0,-180*Time.deltaTime,0);
     }
 
     public void Right() //move right
     {
-        gameObject.transform.Rotate(0, 12, 0);
+        gameObject.transform.Rotate(0, 180*Time.deltaTime, 0);
     }
 
     public void Jump() //jump, move upwards

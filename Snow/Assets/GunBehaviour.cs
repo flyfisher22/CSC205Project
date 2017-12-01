@@ -15,9 +15,11 @@ public class GunBehaviour : MonoBehaviour {
 		
 	}
 
-    public void Shoot()
+    public void Shoot(float bSize)
     {
         time += Time.deltaTime;
         GameObject thisSB = Instantiate(Snowball, transform.position, transform.rotation);
+        thisSB.transform.localScale += new Vector3(bSize, bSize, bSize);
+        Destroy(thisSB, 3);
     }
 }
