@@ -3,3 +3,5 @@ ProjectSettings/
 Snow/Snow.csproj
 Snow/Snow.sln
 Temp/
+.vs/
+Snow/Snow.Plugins.csproj
