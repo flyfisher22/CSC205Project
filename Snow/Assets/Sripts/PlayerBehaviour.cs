@@ -8,13 +8,14 @@ public class PlayerBehaviour : MonoBehaviour {
     float snowSize = 0;
 	// Use this for initialization
 	void Start () {
-        camera = GameObject.FindGameObjectWithTag("MainCamera");
-        FiringPoint = GameObject.FindGameObjectWithTag("FiringPoint");
+        camera = GameObject.FindGameObjectWithTag("PlayerCam");
+        FiringPoint = GameObject.Find("FPP");
     }
 	
 	// Update is called once per frame
 	void Update () {
         Move();
+        CameraMovement();
         if (Input.GetMouseButton(0))
             {
                 snowSize += Time.deltaTime;
@@ -56,4 +57,23 @@ public class PlayerBehaviour : MonoBehaviour {
         FiringPoint.GetComponent<GunBehaviour>().Shoot(snowSize);
     }
 
+    float lrSpeed = 2;
+    float udSpeed = 3;
+    float pitch = 0.0f;
+    float yaw = 0.0f;
+    float edge = 1.0f;
+    void CameraMovement()
+    {
+        yaw += lrSpeed * Input.GetAxis("Mouse X");
+        pitch -= udSpeed * Input.GetAxis("Mouse Y");
+        if (Input.mousePosition.x < 0 - edge)
+        {
+            yaw -= lrSpeed * 30 * Time.deltaTime;
+        }
+        if (Input.mousePosition.x > Screen.width + edge)
+        {
+            yaw += lrSpeed * 30 * Time.deltaTime;
+        }
+        transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
+    }
 }

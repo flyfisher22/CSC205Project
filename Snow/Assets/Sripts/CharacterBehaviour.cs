@@ -6,7 +6,8 @@ public class CharacterBehaviour : MonoBehaviour
 {
 
     //Code for the behaviour of any character in the game (movement
-    int speed = 3;
+   public int speed;
+    
 
     
     // Use this for initialization

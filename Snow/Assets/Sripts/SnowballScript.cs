@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SnowballScript : MonoBehaviour {
-
+    public float size;
 	// Use this for initialization
 	void Start () {
-		
 	}
 	
 	// Update is called once per frame
@@ -27,6 +26,11 @@ public class SnowballScript : MonoBehaviour {
         if (collision.collider.tag != "Player" && collision.collider.tag != "FiringPoint")
         {
             Destroy(gameObject);
+        }
+        if (collision.collider.tag == "Terrain")
+        {
+            collision.gameObject.GetComponent<TerrainBehaviour>().Grow(size, transform.position.x, transform.position.z) ;
+
         }
     }
 }

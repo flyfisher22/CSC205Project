@@ -20,6 +20,7 @@ public class GunBehaviour : MonoBehaviour {
         time += Time.deltaTime;
         GameObject thisSB = Instantiate(Snowball, transform.position, transform.rotation);
         thisSB.transform.localScale += new Vector3(bSize, bSize, bSize);
+        thisSB.GetComponent<SnowballScript>().size = bSize;
         Destroy(thisSB, 3);
     }
 }
