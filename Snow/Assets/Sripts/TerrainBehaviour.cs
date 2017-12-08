@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class TerrainBehaviour : MonoBehaviour {
     public Terrain ground;
+    public Terrain old;
+    private TerrainData oldTD;
     // Use this for initialization
     void Start () {
+        oldTD = old.terrainData;
 	}
 	
 	// Update is called once per frame
@@ -71,7 +74,13 @@ public class TerrainBehaviour : MonoBehaviour {
 
         //change height
         ground.terrainData.SetHeights(sx - length/2, sz-length/2, newH);
-        
+        heights = ground.terrainData.GetHeights(0, 0, resX, resY);
 
+    }
+
+
+    private void ResetH()
+    {
+        ground.terrainData.SetHeights(0,0,oldTD.GetHeights(0,0,oldTD.heightmapWidth, oldTD.heightmapHeight));
     }
 }

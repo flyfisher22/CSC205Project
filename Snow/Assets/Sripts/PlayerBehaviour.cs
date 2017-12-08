@@ -74,6 +74,8 @@ public class PlayerBehaviour : MonoBehaviour {
         {
             yaw += lrSpeed * 30 * Time.deltaTime;
         }
-        transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
+        transform.eulerAngles = new Vector3(0.0f, yaw, 0.0f);
+        camera.transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
+
     }
 }
