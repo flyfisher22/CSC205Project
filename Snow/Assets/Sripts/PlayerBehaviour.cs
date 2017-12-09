@@ -8,10 +8,12 @@ public class PlayerBehaviour : MonoBehaviour {
     GameObject camera;          // FPS  camera attached to the player
     GameObject FiringPoint;     // Point where the snowball will be initalized
     float snowSize = 0;         // Size of Snowball
+    public GameObject slider;
 	// Use this for initialization
 	void Start () {
         camera = GameObject.FindGameObjectWithTag("PlayerCam");         // Finds FPS Camera
         FiringPoint = GameObject.Find("FPP");                           // Finds FiringPoint of Player
+
     }
 	
 	// Update is called once per frame
@@ -21,8 +23,11 @@ public class PlayerBehaviour : MonoBehaviour {
         if (Input.GetMouseButton(0))            // If the left mouse button is pressed
             {
                 snowSize += Time.deltaTime;     // Increase size of snowball
-                Debug.Log(snowSize);            // Show size of snowball in Log
-            }
+                Debug.Log(snowSize); // Show size of snowball in Log
+            
+                
+
+        }
         if (Input.GetMouseButtonUp(0))          // When the left mouse button is released
         {                                       
             Fire();                             // Calls the Firing Method

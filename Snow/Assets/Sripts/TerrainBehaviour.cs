@@ -6,6 +6,7 @@ public class TerrainBehaviour : MonoBehaviour {
 
     // World Variables
     public Terrain ground;      // Terrain being modified
+    public Terrain old;
     private TerrainData oldTD;  // Original Terrain Data
     int resX;                   // Size of the terrain horizontally
     int resY;                   // Size of the terrain vertically
@@ -13,7 +14,7 @@ public class TerrainBehaviour : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        oldTD = ground.terrainData;                                 // Sets the Original Terrain Data
+        oldTD = old.terrainData;                                 // Sets the Original Terrain Data
         resX = ground.terrainData.heightmapWidth;                   // Sets the Terrain's Horizontal Size
         resY = ground.terrainData.heightmapHeight;                  // Sets the Terrain's Vertical Size
         heights = ground.terrainData.GetHeights(0, 0, resX, resY);  // Sets the Terrain Heights
@@ -48,7 +49,6 @@ public class TerrainBehaviour : MonoBehaviour {
             {
                 newH[i,j] += heights[i+ sx - length / 2, j+ sz - length / 2];       // Adds the current terrain height to the bump map set height from where the collision took place in terrain coordinates
                 heights[i + sx - length / 2, j + sz - length / 2] = newH[i, j];     // Sets the bump map new value as the terrain's new value
-                print(heights[i + sx - length / 2, j + sz - length / 2] + " ghj");
 
             }
         }
