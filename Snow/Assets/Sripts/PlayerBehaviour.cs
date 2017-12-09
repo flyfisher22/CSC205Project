@@ -14,6 +14,7 @@ public class PlayerBehaviour : MonoBehaviour {
         camera = GameObject.FindGameObjectWithTag("PlayerCam");         // Finds FPS Camera
         FiringPoint = GameObject.Find("FPP");                           // Finds FiringPoint of Player
 
+        Cursor.lockState = CursorLockMode.Locked;                       // Locks the cursor
     }
 	
 	// Update is called once per frame
@@ -36,6 +37,12 @@ public class PlayerBehaviour : MonoBehaviour {
         {                                       
             Fire();                             // Calls the Firing Method
             snowSize = 0;                       // Resets the Snowball Size for the next snowball
+        }
+
+        if (Input.GetKeyDown("escape"))
+        {
+            Cursor.lockState = CursorLockMode.None; // Frees the Mouse
+
         }
     }
 
