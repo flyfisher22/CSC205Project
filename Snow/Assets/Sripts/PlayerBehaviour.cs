@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerBehaviour : MonoBehaviour {
 
@@ -8,12 +9,13 @@ public class PlayerBehaviour : MonoBehaviour {
     GameObject camera;          // FPS  camera attached to the player
     GameObject FiringPoint;     // Point where the snowball will be initalized
     float snowSize = 0;         // Size of Snowball
-    public GameObject slider;
+    public Text SnowSize;
+
 	// Use this for initialization
 	void Start () {
         camera = GameObject.FindGameObjectWithTag("PlayerCam");         // Finds FPS Camera
         FiringPoint = GameObject.Find("FPP");                           // Finds FiringPoint of Player
-
+        SnowSize = GameObject.Find("SnowSize").GetComponent<Text>();
         Cursor.lockState = CursorLockMode.Locked;                       // Locks the cursor
     }
 	
@@ -29,10 +31,11 @@ public class PlayerBehaviour : MonoBehaviour {
                 snowSize = 3;                   // Limits the size of Snowballs to 3
             }
                 Debug.Log(snowSize);            // Show size of snowball in Log
-            
-                
+
+            SnowSize.text = "Snowball Size = " + snowSize;
 
         }
+
         if (Input.GetMouseButtonUp(0))          // When the left mouse button is released
         {                                       
             Fire();                             // Calls the Firing Method
@@ -44,6 +47,8 @@ public class PlayerBehaviour : MonoBehaviour {
             Cursor.lockState = CursorLockMode.None; // Frees the Mouse
 
         }
+
+
     }
 
     // Movement Method, checks for input through WASD and Spacebar keys and moves players accordingly
