@@ -23,7 +23,11 @@ public class PlayerBehaviour : MonoBehaviour {
         if (Input.GetMouseButton(0))            // If the left mouse button is pressed
             {
                 snowSize += Time.deltaTime;     // Increase size of snowball
-                Debug.Log(snowSize); // Show size of snowball in Log
+            if (snowSize > 3)
+            {
+                snowSize = 3;                   // Limits the size of Snowballs to 3
+            }
+                Debug.Log(snowSize);            // Show size of snowball in Log
             
                 
 
