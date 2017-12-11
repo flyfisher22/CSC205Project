@@ -8,20 +8,36 @@ public class PlayerBehaviour : MonoBehaviour {
     // World Variables
     GameObject camera;          // FPS  camera attached to the player
     GameObject FiringPoint;     // Point where the snowball will be initalized
+    public GameObject player;   // The object of the player to reinstantiate
     float snowSize = 0;         // Size of Snowball
-    public Text SnowSize;
+    public Text SnowSize;       // Text that displays snowball size
+    bool jumped = true;         //Check is the player has jumped
 
 	// Use this for initialization
 	void Start () {
         camera = GameObject.FindGameObjectWithTag("PlayerCam");         // Finds FPS Camera
         FiringPoint = GameObject.Find("FPP");                           // Finds FiringPoint of Player
-        SnowSize = GameObject.Find("SnowSize").GetComponent<Text>();
+        SnowSize = GameObject.Find("SnowSize").GetComponent<Text>();    //Finds the SnowSize text
         Cursor.lockState = CursorLockMode.Locked;                       // Locks the cursor
     }
 	
 	// Update is called once per frame
 	void Update () {
         Move();                                 // Calls Player Movement Method
+        if(FiringPoint == null)                 // Finds the FiringPoint again on death
+        {
+            FiringPoint = GameObject.Find("FPP");
+        }
+        if(camera == null)              //Finds the camera again on death
+        {
+            camera = GameObject.FindGameObjectWithTag("PlayerCam");
+        }
+        if(transform.root.GetComponent<CharacterBehaviour>().health <= 0)                   //Resets the player on death
+        {
+            GameObject newPlayer = Instantiate(player, new Vector3(160.0811f, 50.31905f, 72.51279f), transform.rotation);
+            newPlayer.name = "Player";
+            Destroy(gameObject);
+        }
         CameraMovement();                       // Calls Camer Movement Method
         if (Input.GetMouseButton(0))            // If the left mouse button is pressed
             {
@@ -30,9 +46,8 @@ public class PlayerBehaviour : MonoBehaviour {
             {
                 snowSize = 3;                   // Limits the size of Snowballs to 3
             }
-                Debug.Log(snowSize);            // Show size of snowball in Log
 
-            SnowSize.text = "Snowball Size = " + snowSize;
+            SnowSize.text = "Snowball Size = " + snowSize;          //Displays the snowball's size on the canvas
 
         }
 
@@ -70,16 +85,24 @@ public class PlayerBehaviour : MonoBehaviour {
         {
             gameObject.GetComponent<CharacterBehaviour>().Right();          // Calls method in the CharacterBehaviour script to move to the right
         }
-        if (Input.GetKey("space"))      // If the Spacebar is pushed down
+        if (Input.GetKeyDown("space"))      // If the Spacebar is pushed down
         {
-            gameObject.GetComponent<CharacterBehaviour>().Jump();           // Calls method in the CharacterBehaviour script to move jump
+            if(jumped == false)
+            {
+                gameObject.GetComponent<CharacterBehaviour>().Jump();           // Calls method in the CharacterBehaviour script to move jump
+                jumped = true;
+            }
+        }
+        if (Input.GetKeyDown("r"))
+        {
+            GameObject.Find("Ground").GetComponent<TerrainBehaviour>().ResetH();        //Resets the terrain to its original state
         }
     }
    
     // Method to Fire a Snowball
     void Fire()
     {
-        FiringPoint.GetComponent<GunBehaviour>().Shoot(snowSize);       // Finds Player's Firing Point and calls a shoot method in the GunBehaviour script with the parameter of the snowball's size
+        FiringPoint.GetComponent<GunBehaviour>().Shoot(snowSize, gameObject.tag);       // Finds Player's Firing Point and calls a shoot method in the GunBehaviour script with the parameter of the snowball's size
     }
 
 
@@ -105,7 +128,21 @@ public class PlayerBehaviour : MonoBehaviour {
             yaw += lrSpeed * 30 * Time.deltaTime;                           // Increase the Yaw Variable 
         }
         transform.eulerAngles = new Vector3(0.0f, yaw, 0.0f);               // Rotate the Player to the left and right according to the yaw variable
-        camera.transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);       // Rotate the Camera right, left, up, and down according to the yaw and pitch variables
+        if(pitch > 90)                                                      //Contains the pitch between the boundaries of -90 and 90 degrees
+        {
+            pitch = 90;
+        } else if(pitch < -90)
+        {
+            pitch = -90;
+        }
+        camera.transform.eulerAngles = new Vector3(Mathf.Clamp(pitch, -90, 90), yaw, 0.0f);       // Rotate the Camera right, left, up, and down according to the yaw and pitch variables
+    }
 
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.tag == "Terrain")
+        {
+            jumped = false;
+        }
     }
 }

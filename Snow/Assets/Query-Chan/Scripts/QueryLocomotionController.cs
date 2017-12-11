@@ -71,7 +71,7 @@ public class QueryLocomotionController : MonoBehaviour {
             JumpPlayed = true;
            jumped = true;
         }
-        if (Input.GetKey(KeyCode.Mouse0) && attackTime <= 0)
+        if (Input.GetKeyUp(KeyCode.Mouse0) && attackTime <= 0)
         {
             attackTime = 1;
             AttackPlayed = true;

@@ -102,7 +102,7 @@ public class TerrainBehaviour : MonoBehaviour {
 
 
     // Method to reset the height to the original heights at the beginning of the game
-    private void ResetH()
+    public void ResetH()
     {
         ground.terrainData.SetHeights(0,0,oldTD.GetHeights(0,0,oldTD.heightmapWidth, oldTD.heightmapHeight));  //Sets current heights to oldTerrain's heights
     }

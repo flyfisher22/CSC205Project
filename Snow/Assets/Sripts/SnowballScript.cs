@@ -19,7 +19,7 @@ public class SnowballScript : MonoBehaviour {
     // Method that controls the movement of the Snowball object
     void move()
     {
-        transform.position += transform.forward * 10 * Time.deltaTime;      // Moves the Snowball forwards at a rate of 10
+        transform.position += transform.forward * 40 * Time.deltaTime;      // Moves the Snowball forwards at a rate of 40
     }
 
 
@@ -27,15 +27,18 @@ public class SnowballScript : MonoBehaviour {
     // Method that is called when the Snowball Collides with another ingame Object
     void OnCollisionEnter(Collision collision)
     {
-        Debug.Log(collision.collider.tag);  // Sends the tag of the object to the debuger
-        if (collision.collider.tag != "Player" && collision.collider.tag != "FiringPoint")      //If the Snowball doesn't collide with the Player or Firing Point
+        if (collision.collider.transform.root.tag != gameObject.tag)
         {
-            Destroy(gameObject);        // Destroy the object
+            if (collision.collider.transform.root.tag == "Player" || collision.collider.transform.root.tag == "Enemy")
+            {
+                collision.collider.GetComponent<CharacterBehaviour>().health -= size * 10f;
+                Debug.Log("Ow!");
+            }
+            Destroy(gameObject);
         }
-        if (collision.collider.tag == "Terrain")        // If the SnowBall collides with the Terrain
+        if (collision.collider.tag == "Terrain")
         {
-            // Call method Grow from the TerrainBehaviour Script with the parameters of the Snowball position and size
-            collision.gameObject.GetComponent<TerrainBehaviour>().Grow(size, transform.position.x, transform.position.z) ;          
+            collision.gameObject.GetComponent<TerrainBehaviour>().Grow(size, transform.position.x, transform.position.z);
 
         }
     }
